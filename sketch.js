@@ -55,7 +55,7 @@ function draw() {
 }
 
 function preload(){	
-	rightEarImg= loadImage("upload_9fe25d6f9e04fbad0e1a036edc97e38c.gif")	
+	rightEarImg= loadImage("upload_9fe25d6f9e04fbad0e1a036edc97e38c-0.png")	
 }
 
 function drawSkeleton() {
@@ -73,9 +73,12 @@ function drawSkeleton() {
     // shoulder to shoulder
     partA = pose.keypoints[5];
     partB = pose.keypoints[6];
+
+    push()
     if (partA.score > 0.1 && partB.score > 0.1) {
       line(partA.x, partA.y, partB.x, partB.y);
       image(rightEarImg,0,0,rightEarImg.width,rightEarImg.height)
+    pop()
       
     }
     // hip to hip
