@@ -66,6 +66,7 @@ function drawSkeleton() {
       //line(partA.x, partA.y, partB.x, partB.y);
       push()
         textSize(40)
+        translate(video.width,0)
         scale(-1,1)
         text("412730029,林冰湲",partA.x-width,partA.y-150)
         //print(partA.x)
