@@ -54,11 +54,6 @@ function draw() {
   image(cam, 0, 0);
 }
 
-function preload(){
-	carImg= loadImage("123.gif")
-}
-
-
 function drawSkeleton() {
   // Draw all the tracked landmark points
   for (let i = 0; i < poses.length; i++) {
@@ -70,10 +65,10 @@ function drawSkeleton() {
     if (partA.score > 0.1) {
       //line(partA.x, partA.y, partB.x, partB.y);
       push()
-        textSize(40)
-        scale(-1,1)
-        text("412730029,林冰湲",partA.x-width,partA.y-150)
-        //print(partA.x)
+      textSize(40)
+      scale(-1,1)
+      text("412730029,林冰湲",partA.x-width,partA.y-150)
+      //print(partA.x)
       pop()
     }
 
@@ -90,9 +85,9 @@ function drawSkeleton() {
     if (partA.score > 0.1 && partB.score > 0.1) {
       line(partA.x, partA.y, partB.x, partB.y);
       push()
-        image(carImg,partA.x-75, partA.y-75,150,150)
-        image(carImg,partB.x-75, partB.y-75,150,150)
-        //print(partA.x)
+      image(carImg,partA.x-75, partA.y-75,150,150)
+      image(carImg,partB.x-75, partB.y-75,150,150)
+      //print(pertA.x)
       pop()
       
     }
