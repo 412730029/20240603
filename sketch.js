@@ -54,6 +54,11 @@ function draw() {
   image(cam, 0, 0);
 }
 
+function preload(){
+	carImg= loadImage("123.gif")
+}
+
+
 function drawSkeleton() {
   // Draw all the tracked landmark points
   for (let i = 0; i < poses.length; i++) {
