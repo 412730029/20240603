@@ -73,12 +73,10 @@ function drawSkeleton() {
     // shoulder to shoulder
     partA = pose.keypoints[5];
     partB = pose.keypoints[6];
-
-    push()
     if (partA.score > 0.1 && partB.score > 0.1) {
       line(partA.x, partA.y, partB.x, partB.y);
       image(rightEarImg,0,0,rightEarImg.width,rightEarImg.height)
-    pop()
+
       
     }
     // hip to hip
