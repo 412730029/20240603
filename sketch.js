@@ -1,12 +1,6 @@
-/* MoveNet Skeleton - Steve's Makerspace (most of this code is from TensorFlow)
-
-MoveNet is developed by TensorFlow:
-https://www.tensorflow.org/hub/tutorials/movenet
-
-*/
-
-let video, bodypose, pose, keypoint, detector;
+let video, detector;
 let poses = [];
+let img; // 用來儲存圖片
 
 async function init() {
   const detectorConfig = {
@@ -33,6 +27,15 @@ async function getPoses() {
   requestAnimationFrame(getPoses);
 }
 
+function preload() {
+  // 預加載圖片
+  img = loadImage('upload_9fe25d6f9e04fbad0e1a036edc97e38c.gif', img => {
+    console.log("Image loaded successfully");
+  }, () => {
+    console.error("Failed to load image");
+  });
+}
+
 async function setup() {
   createCanvas(640, 480);
   video = createCapture(VIDEO, videoReady);
@@ -48,79 +51,63 @@ function draw() {
   image(video, 0, 0);
   drawSkeleton();
   // flip horizontal
-  cam = get();
+  let cam = get();
   translate(cam.width, 0);
   scale(-1, 1);
   image(cam, 0, 0);
 }
 
 function drawSkeleton() {
-  // Draw all the tracked landmark points
   for (let i = 0; i < poses.length; i++) {
-    pose = poses[i];
+    let pose = poses[i];
     // shoulder to wrist
-    for (j = 5; j < 9; j++) {
+    for (let j = 5; j < 9; j++) {
       if (pose.keypoints[j].score > 0.1 && pose.keypoints[j + 2].score > 0.1) {
-        partA = pose.keypoints[j];
-        partB = pose.keypoints[j + 2];
+        let partA = pose.keypoints[j];
+        let partB = pose.keypoints[j + 2];
         line(partA.x, partA.y, partB.x, partB.y);
       }
     }
     // shoulder to shoulder
-    partA = pose.keypoints[5];
-    partB = pose.keypoints[6];
+    let partA = pose.keypoints[5];
+    let partB = pose.keypoints[6];
     if (partA.score > 0.1 && partB.score > 0.1) {
       line(partA.x, partA.y, partB.x, partB.y);
-      
     }
     // hip to hip
     partA = pose.keypoints[11];
     partB = pose.keypoints[12];
     if (partA.score > 0.1 && partB.score > 0.1) {
       line(partA.x, partA.y, partB.x, partB.y);
-      
     }
     // shoulders to hips
     partA = pose.keypoints[5];
     partB = pose.keypoints[11];
     if (partA.score > 0.1 && partB.score > 0.1) {
       line(partA.x, partA.y, partB.x, partB.y);
-      
     }
     partA = pose.keypoints[6];
     partB = pose.keypoints[12];
     if (partA.score > 0.1 && partB.score > 0.1) {
       line(partA.x, partA.y, partB.x, partB.y);
-      
     }
     // hip to foot
-    for (j = 11; j < 15; j++) {
+    for (let j = 11; j < 15; j++) {
       if (pose.keypoints[j].score > 0.1 && pose.keypoints[j + 2].score > 0.1) {
-        partA = pose.keypoints[j];
-        partB = pose.keypoints[j + 2];
+        let partA = pose.keypoints[j];
+        let partB = pose.keypoints[j + 2];
         line(partA.x, partA.y, partB.x, partB.y);
-        
       }
+    }
+
+    // 在左肘和右肘顯示圖片
+    let leftElbow = pose.keypoints[7];
+    let rightElbow = pose.keypoints[8];
+    if (leftElbow.score > 0.1) {
+      image(img, leftElbow.x - img.width / 2, leftElbow.y - img.height / 2, 50, 50); // 調整圖片大小
+    }
+    if (rightElbow.score > 0.1) {
+      image(img, rightElbow.x - img.width / 2, rightElbow.y - img.height / 2, 50, 50); // 調整圖片大小
     }
   }
 }
-
-/* Points (view on left of screen = left part - when mirrored)
-  0 nose
-  1 left eye
-  2 right eye
-  3 left ear
-  4 right ear
-  5 left shoulder
-  6 right shoulder
-  7 left elbow
-  8 right elbow
-  9 left wrist
-  10 right wrist
-  11 left hip
-  12 right hip
-  13 left kneee
-  14 right knee
-  15 left foot
-  16 right foot
-*/
